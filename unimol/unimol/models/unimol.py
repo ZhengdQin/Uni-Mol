@@ -218,7 +218,7 @@ class UniMolModel(BaseUnicoreModel):
             x_norm,
             delta_encoder_pair_rep_norm,
         ) = self.encoder(x, padding_mask=padding_mask, attn_mask=graph_attn_bias)
-        encoder_pair_rep[encoder_pair_rep == float("-inf")] = 0
+        encoder_pair_rep[encoder_pair_rep == float("-1e9")] = 0
 
         encoder_distance = None
         encoder_coord = None

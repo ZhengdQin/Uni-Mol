@@ -78,7 +78,7 @@ class TransformerEncoderWithPair(nn.Module):
         input_attn_mask = attn_mask
         input_padding_mask = padding_mask
 
-        def fill_attn_mask(attn_mask, padding_mask, fill_val=float("-inf")):
+        def fill_attn_mask(attn_mask, padding_mask, fill_val=float("-1e9")):
             if attn_mask is not None and padding_mask is not None:
                 # merge key_padding_mask and attn_mask
                 attn_mask = attn_mask.view(x.size(0), -1, seq_len, seq_len)

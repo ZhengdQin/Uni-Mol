@@ -67,7 +67,7 @@ class UnimolConfGModel(BaseUnicoreModel):
             graph_attn_bias = graph_attn_bias.view(-1, n_node, n_node)
             return graph_attn_bias
 
-        def fill_attn_mask(attn_mask, padding_mask, fill_val=float("-inf")):
+        def fill_attn_mask(attn_mask, padding_mask, fill_val=float("-1e9")):
             if attn_mask is not None and padding_mask is not None:
                 # merge key_padding_mask and attn_mask
                 attn_mask = attn_mask.view(x.size(0), -1, seq_len, seq_len)
@@ -90,7 +90,7 @@ class UnimolConfGModel(BaseUnicoreModel):
             if padding_mask is not None:
                 x = x * (1 - padding_mask.unsqueeze(-1).type_as(x))
             attn_mask, padding_mask = fill_attn_mask(
-                attn_mask, padding_mask, fill_val=float("-inf")
+                attn_mask, padding_mask, fill_val=float("-1e9")
             )
 
             for i in range(len(self.unimol.encoder.layers)):

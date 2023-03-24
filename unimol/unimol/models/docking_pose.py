@@ -178,7 +178,7 @@ class DockingPoseModel(BaseUnicoreModel):
             decoder_pair_rep[:, :mol_sz, mol_sz:, :]
             + decoder_pair_rep[:, mol_sz:, :mol_sz, :].transpose(1, 2)
         ) / 2.0
-        mol_pocket_pair_decoder_rep[mol_pocket_pair_decoder_rep == float("-inf")] = 0
+        mol_pocket_pair_decoder_rep[mol_pocket_pair_decoder_rep == float("-1e9")] = 0
 
         cross_rep = torch.cat(
             [
@@ -229,7 +229,7 @@ class DistanceHead(nn.Module):
 
     def forward(self, x):
         bsz, seq_len, seq_len, _ = x.size()
-        x[x == float("-inf")] = 0
+        x[x == float("-1e9")] = 0
         x = self.dense(x)
         x = self.activation_fn(x)
         x = self.layer_norm(x)
